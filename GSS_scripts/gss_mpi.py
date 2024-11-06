@@ -186,7 +186,7 @@ class Gss_sampler(object):
                P_teta = P_new
                save_pslike = im_new
 
-            if (i+1) % thin == 0:
+            if (i+1) % thin == 0: # Saving the thinned_samples 
                 #print('id:', id) 
                 ln_pslike_beta [id] = save_pslike   
                 samples.append(teta)
@@ -197,7 +197,7 @@ class Gss_sampler(object):
         for j in range(ndim):
             ess[j] = az.ess(samp_ess[:,j])
         if rank == 0 :
-            print(f'Effective Sample Size: max {max(ess)} min {min(ess)}')
+            print(f'Effective Sample Size: max {max(ess)} min {min(ess)}')  # Printig the effective sample size from the saved samples 
         ln_pslike_beta = np.append(ln_pslike_beta,beta_k)
         targ_dist = ln_pslike_beta
         #print('beta_k:',ln_pslike_beta[-1])
@@ -266,7 +266,7 @@ class Gss_sampler(object):
         
         # Gss to compute r_k
         
-    def sample_is(self,n_samp,mu0s,sig0s,lnlikefn, lnpriorfn, thin=1, parallel = False): #from Fan et al. 2010
+    def sample_is(self,n_samp,mu0s,sig0s,lnlikefn, lnpriorfn, thin=1, parallel = False):
         
         
         
@@ -331,22 +331,7 @@ class Gss_sampler(object):
 
 
 
-
-def direct_samp_post(dim,v,n_samples):
-    
-    print('Direct sampling from post :',n_samples)
-    ln_post = {}
-    
-    for i in range(dim):
-        #p_b = np.random.lognormal(0,v/(v+bet[i]),size = n_samples)  
-        p_b = np.random.normal(0,np.sqrt(v/(v+1)),size = (n_samples))
-        
-        
-        ln_post[str(i+1)] = p_b
-        
-    return ln_post
-
-def ref_calibrate(post_samples):
+def ref_calibrate(post_samples): # Output an array mu of the mean and an array of std sig of each parameter from posterior dictionnary
         
         li = list(post_samples.keys())
         
@@ -358,7 +343,8 @@ def ref_calibrate(post_samples):
               sig[j] = np.std(ran_samples)
 
         return mu , sig
-def SS(ln_like):
+
+def SS(ln_like): # Marginal likelihood estimation with SS from a dictionnary with Betas as keys for each likelihood chain
     
     log_z =0
     beta_k_list = list(ln_like.keys())
@@ -388,7 +374,7 @@ def SS(ln_like):
     log_z = np.sum(log_save_like) - (len(beta)-1)*np.log(n)
     return log_z  
 
-def read_post(folder_path,param_name, burn_in):
+def read_post(folder_path,param_name, burn_in): # Read posterior samples from PTMCMC chain file and outputs dictionnary with parameter names as keys 
    
        results = {}
        delimiter=' '
