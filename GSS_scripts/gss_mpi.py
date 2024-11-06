@@ -323,7 +323,6 @@ class Gss_sampler(object):
              print('summ pse_rk', np.sum(pse_rk))
              print('log(n)',(len(beta_dT)-1)*np.log(n_samp))
              
-             stop_time = time.time()
              print ("Time for GSS estimation ---", int((time.time()-start_time)), " seconds .---")
              return log_r_k  , targ_dist
         

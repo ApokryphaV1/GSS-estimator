@@ -171,12 +171,13 @@ if __name__ == "__main__":
             else:
                 x0[-i-1] = 0.
 
-    del psrs
+    del psrs # saving RAM sapce
     mu0 = []
     sig0 = []
     model_name = 'curn'
     folder_path = '/fred/oz103/ezahraoui/epta_posteriors/DR2new/'+model_name+'/'
-    if Rank == 0 :
+
+    if Rank == 0 : # Reading the posterior files from PTMCMC and outputing mean and std to be used for refrence distribution
         posterior = {}
         params = np.genfromtxt(folder_path+'pars.txt',dtype=str,unpack=True)
         posterior = gss_mpi.read_post( folder_path, params, 50000)
@@ -186,20 +187,22 @@ if __name__ == "__main__":
     sig0 = Comm.bcast(sig0,root = 0)
 
     start_time = time.time()
-    n =  100
-    nchain = Size #number of chain from N-core
-    log_z = np.zeros(n)
-    g_samp = 2000
-    thin_fac = 100
-    new_path = folder_path.replace(model_name+'/','paper_results/')
+    n =  100               # Number of log(z) estimates
+    nchain = Size          # Number of chain from N-core
+    log_z = np.zeros(n)    # Log(z) array
+    g_samp = 2000          # MH iterations  
+    thin_fac = 100          # Thinning factor
+    new_path = folder_path.replace(model_name+'/','paper_results/')  
+
     for i in range(n):
         
-        GSS = gss_mpi.Gss_sampler(N_chain = nchain)
+        GSS = gss_mpi.Gss_sampler(N_chain = nchain) # Initializing GSS
 
         log_z[i]= GSS.sample_is(n_samp = g_samp,mu0s = mu0 , sig0s= sig0, lnlikefn = pta.get_lnlikelihood, lnpriorfn = pta.get_lnprior, thin= thin_fac,parallel= True)
-        z_path = new_path+model_name+'_'+str(g_samp)+'s_tf'+str(thin_fac)+'_'+str(n)+'_log_z_'+str(nchain)+'T.txt'
+        z_path = new_path+model_name+'_'+str(g_samp)+'s_tf'+str(thin_fac)+'_'+str(n)+'_log_z_'+str(nchain)+'T.txt'  # Saving log(z).txt path 
+
         if Rank == 0 :
-            np.savetxt(z_path, log_z, fmt='%1.14e')
+            np.savetxt(z_path, log_z, fmt='%1.14e') # Write to file at each iteration to save estimates if job runs out of time or stopped
     stop_time = time.time()
     if Rank == 0 :
         #ss_z = gss_mpi.SS(q_b)
