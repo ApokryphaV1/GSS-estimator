@@ -1,4 +1,4 @@
-# Generalized Steppingstone Sampling in PTA
+# Generalized Steppingstone Sampling for PTA
 GSS estimator code for PTA
 
 This repository contains the scripts used to conduct the study in " Generalized Steppingstone Sampling: Efficient marginal likelihood estimation in gravitational wave analysis of Pulsar Timing Array data".
