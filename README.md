@@ -13,8 +13,8 @@ This study uses the public data releases in:
 ## Folder structure
 
 The folder is organized as each PTA folder contains :
-- paper_results: The marginal likelihood text files for each models estimate.
-- scripts: the different scripts used for this study and a python notebook to reproduce the PTA figures in the paper.
+- paper_results: The marginal likelihood text files for each model estimate.
+- scripts: the different scripts used for this study and a Python notebook to reproduce the PTA figures in the paper.
 
 The folder GSS_scripts has the GSS generic sampler and notebooks for the simulation study section.
 
