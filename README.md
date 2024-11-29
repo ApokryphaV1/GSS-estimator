@@ -10,12 +10,12 @@ This study uses the public data releases in:
 - EPTA+InPTA: https://gitlab.in2p3.fr/epta/epta-dr2.git
 
 
-## Folder structre
+## Folder structure
 
-The folder is organised as each PTA folder contains :
-- paper_results: The marginal likelihood text filesfor each models estimate.
-- scripts: the diffrent scripts used for this study and a python notebook to reproduce the PTA figures in the paper.
+The folder is organized as each PTA folder contains :
+- paper_results: The marginal likelihood text files for each models estimate.
+- scripts: the different scripts used for this study and a python notebook to reproduce the PTA figures in the paper.
 
-The folder GSS_scripts has the gss generic sampler and notebooks for the simulation study section.
+The folder GSS_scripts has the GSS generic sampler and notebooks for the simulation study section.
 
 
